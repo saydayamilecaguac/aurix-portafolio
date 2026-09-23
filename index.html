@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURIX — Sistemas de Información para tu Negocio</title>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#103a60; --primary-light:#0e8c80; --accent:#e4a536;
+    --navy-deep:#0c2c4a; --gold-light:#f5c86e; --teal-light:#5fc3b6;
+    --bg:#f6f7f8; --bg-soft:#eceef1; --card:#ffffff; --text:#122c46; --muted:#5b6b7c;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+  body{background:var(--bg);color:var(--text);}
+  nav{position:fixed;top:0;width:100%;display:flex;justify-content:space-between;align-items:center;
+      padding:10px 6%;background:rgba(246,247,248,.88);backdrop-filter:blur(12px);z-index:1000;
+      border-bottom:1px solid rgba(16,58,96,.1);}
+  .logo{display:flex;align-items:center;gap:10px;font-size:1.3rem;font-weight:800;letter-spacing:1px;color:var(--primary);}
+  .logo img{height:70px;width:auto;display:block;}
+  .logo span{font-weight:400;color:var(--muted);font-size:.72rem;letter-spacing:.2px;display:block;}
+  .logo-text{
+  display:flex;
+  flex-direction:column;
+  line-height:1.1;
+}
+.logo-text span{
+  font-weight:400;
+  color:var(--muted);
+  font-size:.72rem;
+  letter-spacing:.2px;
+}
+  .nav-links{display:flex;gap:24px;list-style:none;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:.9rem;transition:.3s;}
+  .nav-links a:hover{color:var(--primary);}
+  section{padding:90px 6%;max-width:1200px;margin:0 auto;}
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+        text-align:center;background:radial-gradient(ellipse at 70% 15%,rgba(14,140,128,.10),transparent 60%),
+        radial-gradient(ellipse at 20% 80%,rgba(228,165,54,.08),transparent 55%);}
+  .hero img.hero-logo{height:120px;width:auto;margin-bottom:18px;}
+  .badge{border:1px solid rgba(14,140,128,.4);border-radius:50px;padding:6px 18px;font-size:.8rem;
+         color:#0b6a61;font-weight:600;margin-bottom:24px;background:rgba(14,140,128,.08);}
+  h1{font-size:clamp(2.2rem,5vw,3.8rem);font-weight:800;line-height:1.15;margin-bottom:6px;color:var(--primary);}
+  h1 .grad{color:var(--primary-light);display:block;}
+  .divider{width:120px;height:4px;border-radius:4px;background:var(--accent);margin:22px auto;}
+  .hero p{max-width:640px;color:var(--muted);font-size:1.1rem;margin-bottom:36px;}
+  .btn{display:inline-block;padding:14px 34px;border-radius:50px;font-weight:600;text-decoration:none;transition:.3s;}
+  .btn-primary{background:var(--primary);color:#fff;box-shadow:0 8px 24px rgba(16,58,96,.25);}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(16,58,96,.35);background:var(--navy-deep);}
+  .btn-outline{border:2px solid var(--primary-light);color:var(--primary);margin-left:14px;}
+  .btn-outline:hover{background:rgba(14,140,128,.1);}
+  h2{font-size:2.1rem;font-weight:700;margin-bottom:8px;color:var(--primary);}
+  .subtitle{color:var(--muted);margin-bottom:48px;max-width:700px;}
+  .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;}
+  .card{background:var(--card);border:1px solid rgba(16,58,96,.1);border-radius:20px;padding:36px;transition:.3s;
+        box-shadow:0 4px 18px rgba(16,58,96,.06);}
+  .card:hover{transform:translateY(-6px);border-color:var(--primary-light);box-shadow:0 20px 42px rgba(16,58,96,.14);}
+  .card h3{font-size:1.35rem;margin:14px 0 6px;color:var(--primary);}
+  .card .tag{display:inline-block;background:rgba(228,165,54,.15);color:#a06e17;font-size:.75rem;
+             padding:4px 14px;border-radius:20px;margin-bottom:6px;font-weight:600;}
+  .modules{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 24px;}
+  .module{background:rgba(14,140,128,.08);border:1px solid rgba(14,140,128,.25);color:#0b6a61;
+          font-size:.8rem;padding:6px 14px;border-radius:20px;}
+.icon{
+  width:auto;
+  height:80px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  background:transparent;
+  border:none;
+  box-shadow:none;
+  overflow:visible;
+  margin-bottom:14px;
+}
+.icon img{
+  height:80px;
+  width:auto;
+  max-width:180px;
+  object-fit:contain;
+  display:block;
+}
+  .pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;}
+  .pillar{background:linear-gradient(160deg,var(--card),var(--bg-soft));border-radius:20px;padding:36px;
+          border-top:4px solid var(--primary-light);box-shadow:0 4px 18px rgba(16,58,96,.06);}
+  .pillar.mission{border-top-color:var(--accent);} .pillar.vision{border-top-color:var(--primary-light);}
+  .pillar h3{font-size:1.25rem;margin-bottom:14px;color:var(--primary);}
+  .pillar p{color:var(--muted);line-height:1.7;font-size:.95rem;}
+  .values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;}
+  .value{background:var(--card);border-radius:16px;padding:28px;text-align:center;border:1px solid rgba(16,58,96,.1);
+         transition:.3s;box-shadow:0 4px 18px rgba(16,58,96,.05);}
+  .value:hover{border-color:var(--accent);}
+  .value .vicon{font-size:2rem;margin-bottom:12px;}
+  .value h4{font-size:1.05rem;margin-bottom:8px;color:var(--primary);}
+  .value p{color:var(--muted);font-size:.85rem;line-height:1.6;}
+  .obj-list{list-style:none;display:flex;flex-direction:column;gap:20px;}
+  .obj{display:flex;gap:20px;background:var(--card);padding:24px 28px;border-radius:16px;
+       border-left:4px solid var(--accent);align-items:flex-start;box-shadow:0 4px 18px rgba(16,58,96,.06);}
+  .obj .num{font-size:1.4rem;font-weight:800;color:var(--accent);min-width:40px;}
+  .obj p{color:var(--muted);line-height:1.65;font-size:.95rem;}
+  .arch{display:flex;gap:20px;align-items:flex-start;background:rgba(14,140,128,.05);
+        border:1px solid rgba(14,140,128,.2);border-radius:20px;padding:32px;margin-top:40px;}
+  .arch p{color:var(--muted);line-height:1.7;font-size:.95rem;}
+  footer{text-align:center;padding:52px 6%;color:var(--teal-light);font-size:.85rem;
+         background:var(--navy-deep);margin-top:60px;}
+  footer .flogo{font-size:1.3rem;font-weight:800;letter-spacing:1px;color:#fff;}
+  footer .fmuted{color:#9fb3c8;}
+  .contact-title{color:var(--gold-light);font-weight:700;font-size:1.1rem;margin:28px 0 20px;}
+  .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:22px;max-width:640px;margin:0 auto;text-align:left;}
+  .contact-item .clabel{color:var(--teal-light);font-size:.85rem;display:block;margin-bottom:2px;}
+  .contact-item .cvalue{color:#fff;font-weight:700;font-size:1.02rem;}
+  .preview-note{color:var(--muted);font-size:.85rem;margin-bottom:28px;font-style:italic;}
+  .preview-group{margin-bottom:44px;}
+  .preview-group h3{color:var(--primary);font-size:1.15rem;margin-bottom:14px;}
+  /* --- Logo de fondo con transparencia --- */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:url("./assets/logos/logo-aurix.png");
+  background-repeat:no-repeat;
+  background-position:center center;
+  background-size:min(70vw, 700px);
+  opacity:0.06;              /* ← nivel de transparencia (0.03 = muy sutil, 0.15 = más visible) */
+  pointer-events:none;       /* ← no interfiere con clics */
+  z-index:0;
+  filter:grayscale(0%);      /* opcional: prueba grayscale(100%) para blanco y negro */
+}
+
+  /* --- Carrusel de slides --- */
+  .slide-carousel{
+    position:relative;
+    width:100%;
+    aspect-ratio: 16/10;
+    max-height:640px;
+    border-radius:20px;
+    overflow:hidden;
+    background:var(--bg-soft);
+    box-shadow:0 20px 50px rgba(16,58,96,.15);
+    margin-bottom:16px;
+  }
+  .slide{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;           /* ← antes: cover */
+  object-position:center top;   /* ← alinea arriba */
+  background:#0c2c4a;           /* ← franjas de relleno */
+  padding:12px;                 /* ← pequeño margen interno */
+  opacity:0;
+  transform:scale(1.02);
+  transition:opacity .6s ease, transform .6s ease;
+  pointer-events:none;
+  box-sizing:border-box;
+}
+  .slide.active{
+    opacity:1;
+    transform:scale(1);
+    pointer-events:auto;
+    z-index:2;
+  }
+  .slide.leaving{
+    opacity:0;
+    transform:scale(1.05);
+    z-index:1;
+  }
+
+  /* Flechas */
+  .slide-arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:46px;height:46px;
+    border-radius:50%;
+    border:none;
+    background:rgba(255,255,255,.9);
+    color:var(--primary);
+    font-size:1.6rem;
+    font-weight:700;
+    line-height:1;
+    cursor:pointer;
+    z-index:10;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 6px 18px rgba(0,0,0,.15);
+    transition:.25s ease;
+  }
+  .slide-arrow:hover{background:#fff;transform:translateY(-50%) scale(1.1);}
+  .slide-arrow.left{left:18px;}
+  .slide-arrow.right{right:18px;}
+
+  /* Info overlay */
+  .slide-info{
+    position:absolute;
+    left:0;right:0;bottom:0;
+    padding:60px 24px 20px;
+    background:linear-gradient(to top,rgba(12,44,74,.92),transparent);
+    color:#fff;
+    z-index:5;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .slide-sys{
+    font-size:.75rem;
+    font-weight:700;
+    letter-spacing:.5px;
+    text-transform:uppercase;
+    color:var(--gold-light);
+  }
+  .slide-cap{
+    font-size:.95rem;
+    line-height:1.4;
+    color:#fff;
+    opacity:.95;
+  }
+
+  /* Dots */
+  .slide-dots{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:16px;
+  }
+  .dot{
+    width:10px;height:10px;
+    border-radius:50%;
+    background:rgba(16,58,96,.25);
+    cursor:pointer;
+    transition:.3s;
+  }
+  .dot:hover{background:rgba(16,58,96,.5);}
+  .dot.active{
+    background:var(--primary-light);
+    width:28px;
+    border-radius:5px;
+  }
+
+  /* Loading / error */
+  .slide-loading{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--muted);
+    font-size:.9rem;
+    z-index:1;
+  }
+
+  @media(max-width:768px){.nav-links{display:none;}.btn-outline{margin-left:0;margin-top:14px;}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+/* ============================================================
+   🎠 Carrusel con toBase64 (tu función original)
+   ============================================================ */
+function toBase64(url) {
+  return fetch(url)
+    .then(res => res.blob())
+    .then(blob => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    }));
+}
+
+function SlideCarousel({ shots, url }) {
+  const [slides, setSlides] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [i, setI] = useState(0);
+  const [prev, setPrev] = useState(-1);
+
+  // Cargar imágenes a base64
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all(
+      shots.map(s =>
+        toBase64(s.src)
+          .then(src => ({ ...s, src, error: null }))
+          .catch(err => ({ ...s, src: null, error: err.message || "Error" }))
+      )
+    ).then(results => {
+      if (!cancelled) {
+        setSlides(results);
+        setLoading(false);
+      }
+    });
+    return () => { cancelled = true; };
+  }, [shots]);
+
+  const go = (n) => {
+    if (n === i || slides.length === 0) return;
+    setPrev(i);
+    setI(n);
+    setTimeout(() => setPrev(-1), 650);
+  };
+  const nextSlide = () => go((i + 1) % slides.length);
+  const prevSlide = () => go((i - 1 + slides.length) % slides.length);
+
+  // Autoplay (opcional, coméntalo si no lo quieres)
+  useEffect(() => {
+    if (slides.length < 2) return;
+    const id = setInterval(() => {
+      setPrev(i);
+      setI((p) => (p + 1) % slides.length);
+      setTimeout(() => setPrev(-1), 650);
+    }, 6000);
+    return () => clearInterval(id);
+  }, [i, slides.length]);
+
+  if (loading) {
+    return (
+      <div className="slide-carousel">
+        <div className="slide-loading">Cargando capturas…</div>
+      </div>
+    );
+  }
+
+  if (slides.length === 0) return null;
+
+  return (
+    <>
+      <div className="slide-carousel">
+        {slides.map((s, idx) => (
+          s.src ? (
+            <img
+              key={idx}
+              src={s.src}
+              alt={s.sys || ""}
+              className={
+                "slide" +
+                (idx === i ? " active" : "") +
+                (idx === prev ? " leaving" : "")
+              }
+            />
+          ) : (
+            <div
+              key={idx}
+              className={"slide" + (idx === i ? " active" : "")}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "var(--muted)"
+              }}
+            >
+              ⚠️ {s.error}
+            </div>
+          )
+        ))}
+
+        {slides.length > 1 && (
+          <>
+            <button className="slide-arrow left" onClick={prevSlide} aria-label="Anterior">‹</button>
+            <button className="slide-arrow right" onClick={nextSlide} aria-label="Siguiente">›</button>
+          </>
+        )}
+
+        <div className="slide-info">
+          <span className="slide-sys">{slides[i].sys || ""}</span>
+          <span className="slide-cap">{slides[i].cap}</span>
+        </div>
+      </div>
+
+      {slides.length > 1 && (
+        <div className="slide-dots">
+          {slides.map((_, idx) => (
+            <span
+              key={idx}
+              className={"dot" + (idx === i ? " active" : "")}
+              onClick={() => go(idx)}
+            ></span>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+/* ============================================================
+   📋 DATOS
+   ============================================================ */
+const sistemas = [
+  {
+    logo: "./assets/logos/logo-neo.png",
+    tag: "Sector Construcción",
+    nombre: "AURIX -OBRAS",
+    cliente: "NeoConstrucciones Integrales S.A.S",
+    descripcion: "Sistema integral de gestión de obras que digitaliza todo el ciclo del proyecto: desde la cotización hasta el control del dinero. Reemplaza cuadernos y hojas de cálculo por información centralizada y en tiempo real.",
+    modulos: ["Cotizaciones","Facturación","Proyectos","Hitos","Órdenes de compra","Ingresos","Egresos"],
+    url: "https://neoconstrucciones.vercel.app"
+  },
+  {
+    logo: "./assets/logos/logo-rainbow.png",
+    tag: "Comercio y Servicios",
+    nombre: "AURIX Gestión Base",
+    cliente: "Rainbow Spiritual",
+    descripcion: "Sistema de gestión para microempresas de servicios y comercio: organiza clientes, agenda y ventas en un solo lugar. Pensado para negocios que hoy anotan todo en papel o en WhatsApp personal.",
+    modulos: ["Clientes","Agenda","Cotizaciones","Resumen de ventas"],
+    url: "https://rainbow-spiritual.onrender.com"
+  }
+];
+
+const valores = [
+  {icono:"🤝", titulo:"Cercanía", desc:"Hablamos el idioma del microempresario: sin tecnicismos, con acompañamiento presencial y paciencia."},
+  {icono:"🔍", titulo:"Transparencia", desc:"Precios claros, sin costos ocultos. El cliente sabe exactamente qué recibe y cuánto paga cada año."},
+  {icono:"📈", titulo:"Crecimiento compartido", desc:"Nuestros sistemas son expandibles: crecen al ritmo del negocio del cliente, sin cambiar de plataforma."},
+  {icono:"🛡️", titulo:"Confianza", desc:"Capacitación personalizada, soporte cercano y respaldos de la información. La tecnología al servicio, nunca al revés."},
+  {icono:"💡", titulo:"Simplicidad", desc:"Sistemas fáciles de usar para personas que no saben de tecnología. Si se puede anotar en un cuaderno, se puede registrar en AURIX."},
+  {icono:"🏘️", titulo:"Impacto local", desc:"Visibilizamos los comercios tradicionales de Rafael Uribe Uribe y los ponemos en el mapa digital de Bogotá."}
+];
+
+const objetivos = [
+  {num:"01", texto:"Validar con un experimento de bajo costo (sesión gratuita de diagnóstico digital de 45 minutos) la demanda real de digitalización de 10 microempresarios de Rafael Uribe Uribe antes de octubre 31 de 2026."},
+  {num:"02", texto:"Implementar el sistema AURIX Gestión Base en al menos 3 microempresas (peluquería, restaurante, comercio) con sus perfiles de Google Maps optimizados antes de diciembre de 2026."},
+  {num:"03", texto:"Consolidar AURIX Obras como sistema operativo de NeoConstrucciones, con los 7 módulos (cotizaciones, facturación, proyectos, hitos, órdenes de compra, ingresos y egresos) en uso diario durante 2027."},
+  {num:"04", texto:"Migrar la arquitectura a un modelo centralizado multi-tenant que reduzca los costos de operación por cliente y permita escalar a nuevos sectores sin rehacer el sistema."},
+  {num:"05", texto:"Alcanzar un flujo recurrente de mantenimiento anual (hosting, dominio, soporte) que asegure la sostenibilidad del negocio a partir del segundo año de cada cliente."}
+];
+
+const previews = {
+  construccion: {
+    nombre: "AURIX -OBRAS",
+    url: "https://neoconstrucciones.vercel.app",
+    shots: [
+      { src: "./assets/neo/neo-paneladmon.png",
+        sys: "AURIX -OBRAS",
+        cap: "Panel administrativo: acceso rápido a los 8 módulos del sistema." },
+      { src: "./assets/neo/neo-servicios.png",
+        sys: "AURIX -OBRAS",
+        cap: "Servicios: catálogo de servicios con desglose de materiales y mano de obra." },
+      { src: "./assets/neo/neo-clientes.png",
+        sys: "AURIX -OBRAS",
+        cap: "Clientes: registro de clientes con sus sedes y datos de contacto." },
+      { src: "./assets/neo/neo-cotizaciones.png",
+        sys: "AURIX -OBRAS",
+        cap: "Cotizaciones: creación y envío de propuestas comerciales a clientes." },
+      { src: "./assets/neo/neo-factura.png",
+        sys: "AURIX -OBRAS",
+        cap: "Facturación: generación de facturas con ítems, impuestos y totales." },
+      { src: "./assets/neo/neo-facturadetalle.png",
+        sys: "AURIX -OBRAS",
+        cap: "Detalle de factura: desglose completo de cada ítem facturado." },
+      { src: "./assets/neo/neo-comprobantenom.png",
+        sys: "AURIX -OBRAS",
+        cap: "Comprobante de nómina: recibo de pago individual por empleado." },
+      { src: "./assets/neo/neo-comprobantepdf.png",
+        sys: "AURIX -OBRAS",
+        cap: "Comprobante PDF: exportación en formato listo para imprimir." },
+      { src: "./assets/neo/neo-proyectos.png",
+        sys: "AURIX -OBRAS",
+        cap: "Proyectos: seguimiento de obras en ejecución y su estado actual." },
+      { src: "./assets/neo/neo-proyectosdetalle.png",
+        sys: "AURIX -OBRAS",
+        cap: "Detalle de proyecto: hitos, avances y responsables asignados." },
+      { src: "./assets/neo/neo-nomina.png",
+        sys: "AURIX -OBRAS",
+        cap: "Nómina: gestión de pagos, devengos y deducciones del personal." },
+      { src: "./assets/neo/neo-nomina1.png",
+        sys: "AURIX -OBRAS",
+        cap: "Nómina detallada: cálculo de pagos por período y empleado." },
+      { src: "./assets/neo/neo-liquidacion.png",
+        sys: "AURIX -OBRAS",
+        cap: "Liquidación: cálculo y cierre de prestaciones sociales." },
+      { src: "./assets/neo/neo-asistencia.png",
+        sys: "AURIX -OBRAS",
+        cap: "Asistencia: control de entrada, salida y horas trabajadas." },
+      { src: "./assets/neo/neo-cesantias.png",
+        sys: "AURIX -OBRAS",
+        cap: "Cesantías: cálculo y provisión por cada empleado." },
+      { src: "./assets/neo/neo-descuentos.png",
+        sys: "AURIX -OBRAS",
+        cap: "Descuentos: aplicación de deducciones sobre la nómina." },
+      { src: "./assets/neo/neo-gestionusuarios.png",
+        sys: "AURIX -OBRAS",
+        cap: "Gestión de usuarios: registro con permisos según su cargo." },
+      { src: "./assets/neo/neo-gestionusuarioshistorico.png",
+        sys: "AURIX -OBRAS",
+        cap: "Histórico de usuarios: trazabilidad de cambios y accesos." },
+      { src: "./assets/neo/neo-novedades.png",
+        sys: "AURIX -OBRAS",
+        cap: "Novedades: registro de incidencias y eventos en obra." },
+      { src: "./assets/neo/neo-mensajevista.png",
+        sys: "AURIX -OBRAS",
+        cap: "Mensajes: comunicación interna y notificaciones del sistema." }
+    ]
+  },
+
+  rainbow: {
+    nombre: "AURIX Gestión Base",
+    url: "https://rainbow-spiritual.onrender.com",
+    shots: [
+      { src: "./assets/rainbow/rainbow-panel.png",
+        sys: "AURIX Gestión Base",
+        cap: "Panel de control: citas, clientes, servicios, eventos, productos y pedidos de un vistazo." },
+      { src: "./assets/rainbow/rainbow-citaservicio.png",
+        sys: "AURIX Gestión Base",
+        cap: "Citas de servicio: agenda, confirmación y seguimiento de sesiones." },
+      { src: "./assets/rainbow/rainbow-eventos.png",
+        sys: "AURIX Gestión Base",
+        cap: "Eventos: creación y gestión de talleres, rituales y encuentros grupales." },
+      { src: "./assets/rainbow/rainbow-inscritoevento.png",
+        sys: "AURIX Gestión Base",
+        cap: "Inscritos a eventos: control de participantes y cupos disponibles." },
+      { src: "./assets/rainbow/rainbow-clientes.png",
+        sys: "AURIX Gestión Base",
+        cap: "Clientes: ficha individual con historial de sesiones y compras." },
+      { src: "./assets/rainbow/rainbow-pedidos.png",
+        sys: "AURIX Gestión Base",
+        cap: "Pedidos: seguimiento de ventas, pagos y entregas de productos." },
+      { src: "./assets/rainbow/rainbow-productos.png",
+        sys: "AURIX Gestión Base",
+        cap: "Productos: catálogo, precios e inventario disponible en tiempo real." }
+    ]
+  }
+};
+/* ============================================================
+   🧭 COMPONENTES
+   ============================================================ */
+function Nav(){
+  return (
+    <nav>
+      <div className="logo">
+        <img src="./assets/logos/logo-aurix.png" alt="AURIX" />
+        <div className="logo-text">
+          AURIX
+          <span>Aplicaciones Unificadas de Registro e Información eXperta</span>
+        </div>
+      </div>
+      <ul className="nav-links">
+        <li><a href="#sistemas">Sistemas</a></li>
+        <li><a href="#preview">Vista previa</a></li>
+        <li><a href="#mision">Misión y Visión</a></li>
+        <li><a href="#valores">Valores</a></li>
+        <li><a href="#objetivos">Objetivos</a></li>
+      </ul>
+    </nav>
+  );
+}
+
+function Hero(){
+  return (
+    <section className="hero" id="inicio">
+      <div className="badge">Aplicaciones Unificadas de Registro e Información eXpandible</div>
+      <h1>Toda tu empresa,<br/><span className="grad">un solo sistema.</span></h1>
+      <div className="divider"></div>
+      <p>AURIX digitaliza los negocios que aún viven en el cuaderno: cotizaciones, facturas, proyectos, agenda y finanzas organizadas en una sola plataforma que crece contigo. Empezamos por los barrios de Bogotá.</p>
+      <div>
+        <a href="#sistemas" className="btn btn-primary">Conoce nuestros sistemas</a>
+        <a href="#mision" className="btn btn-outline">Nuestro propósito</a>
+      </div>
+    </section>
+  );
+}
+
+function Sistemas(){
+  return (
+    <section id="sistemas">
+      <h2>Nuestros sistemas</h2>
+      <p className="subtitle">Dos productos, una misma plataforma. Cada sistema se adapta al sector, pero comparten la misma base: información unificada, segura y expandible.</p>
+      <div className="grid-2">
+        {sistemas.map(s => (
+          <div className="card" key={s.nombre}>
+            <div className="icon">
+              <img src={s.logo} alt={s.nombre} />
+            </div>
+            <span className="tag">{s.tag}</span>
+            <h3>{s.nombre}</h3>
+            <p style={{color:"#a06e17",fontWeight:600,fontSize:".85rem",marginBottom:"10px"}}>{s.cliente}</p>
+            <p style={{color:"var(--muted)",fontSize:".92rem",lineHeight:"1.65"}}>{s.descripcion}</p>
+            <div className="modules">
+              {s.modulos.map(m => <span className="module" key={m}>{m}</span>)}
+            </div>
+            <a href={s.url} target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{padding:"10px 26px",fontSize:".88rem"}}>Ver sistema en vivo →</a>
+          </div>
+        ))}
+      </div>
+      {/* ... el resto del bloque .arch queda igual ... */}
+    </section>
+  );
+}
+
+function Preview(){
+  return (
+    <section id="preview">
+      <h2>Vista previa de los sistemas</h2>
+      <p className="subtitle">Capturas reales de los sistemas ya en operación.</p>
+      {Object.values(previews).map(p => (
+        <div className="preview-group" key={p.nombre}>
+          <h3>{p.nombre}</h3>
+          <SlideCarousel shots={p.shots} url={p.url} />
+        </div>
+      ))}
+      <p className="preview-note">
+        Mostramos solo pantallas sin datos personales de clientes o empleados (nómina, cédulas y contactos quedan fuera).
+      </p>
+    </section>
+  );
+}
+
+function MisionVision(){
+  return (
+    <section id="mision">
+      <h2>Misión y Visión</h2>
+      <p className="subtitle">El propósito que nos mueve y hacia dónde vamos.</p>
+      <div className="pillars">
+        <div className="pillar mission">
+          <h3>🎯 Misión</h3>
+          <p>Transformar digitalmente a las microempresas de Colombia con sistemas de información simples, accesibles y expandibles, acompañando de forma presencial y cercana a quienes hoy anotan su negocio en papel. Ponemos a los comercios de los barrios —empezando por Rafael Uribe Uribe— en Google Maps y les devolvemos el tiempo, el orden y la imagen profesional que merecen.</p>
+        </div>
+        <div className="pillar vision">
+          <h3>🔭 Visión</h3>
+          <p>Ser en 2030 la plataforma de gestión de referencia para las microempresas latinas: una sola marca (AURIX) con productos adaptados a cada sector —construcción, peluquería, restaurantes y más—, reconocida por hacer que la tecnología sea un aliado cercano y no una amenaza, y por demostrar que el crecimiento de los negocios pequeños es el crecimiento de los barrios.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Valores(){
+  return (
+    <section id="valores">
+      <h2>Valores</h2>
+      <p className="subtitle">Lo que no negociamos en cada implementación.</p>
+      <div className="values-grid">
+        {valores.map(v => (
+          <div className="value" key={v.titulo}>
+            <div className="vicon">{v.icono}</div>
+            <h4>{v.titulo}</h4>
+            <p>{v.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Objetivos(){
+  return (
+    <section id="objetivos">
+      <h2>Objetivos</h2>
+      <p className="subtitle">Metas concretas, medibles y con fecha — validamos antes de construir, y crecemos con orden.</p>
+      <ul className="obj-list">
+        {objetivos.map(o => (
+          <li className="obj" key={o.num}>
+            <span className="num">{o.num}</span>
+            <p>{o.texto}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function Footer(){
+  const redes = [
+    { red: "Instagram", valor: "@aurix.software", icono: "📷" },
+    { red: "Facebook",  valor: "AURIX Software",  icono: "👍" },
+    { red: "Web",       valor: "www.aurix.co",    icono: "🌐" },
+    { red: "WhatsApp",  valor: "+57 301 767 8726",icono: "💬" },
+  ];
+
+  return (
+    <footer>
+      <div className="footer-row">
+        <div className="flogo">AURIX</div>
+        <span className="footer-tagline">Registro e Información eXpandible</span>
+      </div>
+
+      <div className="footer-socials">
+        {redes.map(r => (
+          <a key={r.red} className="social-item" href="#">
+            <span className="social-icon">{r.icono}</span>
+            <span className="social-text">
+              <span className="social-label">{r.red}</span>
+              <span className="social-value">{r.valor}</span>
+            </span>
+          </a>
+        ))}
+      </div>
+
+      <p className="footer-copy">
+        Bogotá, Colombia · © 2026 Sayda Yamile Cagua Carrillo · "Empieza con lo que necesitas hoy. AURIX crece contigo."
+      </p>
+    </footer>
+  );
+}
+
+function App(){
+  return (
+    <div>
+      <Nav />
+      <Hero />
+      <Sistemas />
+      <Preview />
+      <MisionVision />
+      <Valores />
+      <Objetivos />
+      <Footer />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
