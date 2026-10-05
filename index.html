@@ -2,7 +2,9 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AURIX: sistemas de información + Google Maps para microempresas de Bogotá.">
+<meta property="og:title" content="AURIX — La raíz digital de tu negocio">
+<meta property="og:image" content="https://aurix-portafolio.vercel.app/assets/logos/logo-aurix.png">
 <title>AURIX — Sistemas de Información para tu Negocio</title>
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -15,7 +17,7 @@
     --bg:#f6f7f8; --bg-soft:#eceef1; --card:#ffffff; --text:#122c46; --muted:#5b6b7c;  /* --- Fuente personalizada Anddalan --- */
 @font-face{
   font-family: 'AGRESSIVE';
-  src: url('./assets/fonts/AGRESSIVE.otf') format('truetype');
+  src: url('./assets/fonts/AGRESSIVE.otf') format('opentype');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
@@ -422,8 +424,6 @@ function toBase64(url) {
     }));
 }
 
-SlideCarousel
-
   /* ============================================================
    🎠 Carrusel con video integrado
    ============================================================ */
@@ -567,7 +567,7 @@ const sistemas = [
     acento: "#1a6eb8",  
     cliente: "NeoConstrucciones Integrales S.A.S",
     descripcion: "Sistema integral de gestión de construcción que digitaliza todo el ciclo del proyecto: desde la cotización hasta el control del dinero. Reemplaza cuadernos y hojas de cálculo por información centralizada y en tiempo real.",
-    modulos: ["Cotizaciones","Facturación","Proyectos","Hitos","Órdenes de compra","Ingresos","Egresos"],
+    modulos: ["Cotizaciones","Cuenta de cobro","Proyectos","Hitos","Órdenes de compra","Ingresos","Egresos"],
     url: "https://neoconstrucciones.vercel.app"
   },
   {
@@ -594,7 +594,7 @@ const valores = [
 const objetivos = [
   {num:"01", texto:"Validar con un experimento de bajo costo (sesión gratuita de diagnóstico digital de 45 minutos) la demanda real de digitalización de 10 microempresarios en la localidad de Rafael Uribe Uribe, antes del 31 de octubre de 2026."},
   {num:"02", texto:"Implementar el sistema AURIX Gestión Bienestar en al menos 3 microempresas (peluquería, restaurante, tienda, spa) con sus perfiles de Google Maps optimizados, antes de diciembre de 2026."},
-  {num:"03", texto:"Consolidar AURIX Construcción como producto de gestión replicable en el sector construcción. Durante 2027, los 7 módulos (cotizaciones, facturación, proyectos, hitos, órdenes de compra, ingresos y egresos) estarán en uso diario con NeoConstrucciones como primer caso de éxito, y el sistema listo para su adopción por nuevas constructoras."},
+  {num:"03", texto:"Consolidar AURIX Construcción como producto de gestión replicable en el sector construcción. Durante 2027, los 7 módulos (cotizaciones, Cuenta de cobro, proyectos, hitos, órdenes de compra, ingresos y egresos) estarán en uso diario con NeoConstrucciones como primer caso de éxito, y el sistema listo para su adopción por nuevas constructoras."},
   {num:"04", texto:"Unificar los sistemas AURIX en una sola plataforma tecnológica que permita atender más clientes con menos infraestructura, ofrecer precios más bajos y lanzar nuevos productos sin reconstruir el sistema."},
   {num:"05", texto:"Alcanzar un flujo recurrente de mantenimiento anual (hosting, dominio, soporte) que asegure la sostenibilidad del negocio a partir del segundo año de cada cliente."}
 ];
@@ -621,10 +621,10 @@ const previews = {
         cap: "Cotizaciones: creación y envío de propuestas comerciales a clientes." },
       { src: "./assets/neo/neo-factura.png",
         sys: "AURIX - Construcción",
-        cap: "Facturación: generación de facturas con ítems, impuestos y totales." },
+        cap: "Cuenta de cobro: generación de cuentas de cobro con ítems, impuestos y totales." },
       { src: "./assets/neo/neo-facturadetalle.png",
         sys: "AURIX - Construcción",
-        cap: "Detalle de factura: desglose completo de cada ítem facturado." },
+        cap: "Detalle de Cuenta de cobro: desglose completo de cada ítem facturado." },
       { src: "./assets/neo/neo-comprobantenom.png",
         sys: "AURIX - Construcción",
         cap: "Comprobante de nómina: recibo de pago individual por empleado." },
@@ -746,7 +746,7 @@ function Hero(){
       <div className="badge">Aplicaciones Unificadas de Registro e Información eXpandible</div>
       <h1>Toda tu empresa,<br/><span className="grad">un solo sistema.</span></h1>
       <div className="divider"></div>
-      <p>AURIX digitaliza los negocios que aún viven en el cuaderno: cotizaciones, facturas, proyectos, agenda y finanzas organizadas en una sola plataforma que crece contigo. Empezamos por los barrios de Bogotá.</p>
+      <p>AURIX digitaliza los negocios que aún viven en el cuaderno: cotizaciones, cuenta de cobro, proyectos, agenda y finanzas organizadas en una sola plataforma que crece contigo. Empezamos por los barrios de Bogotá.</p>
       <div>
         <a href="#sistemas" className="btn btn-primary">Conoce nuestros sistemas</a>
         <a href="#mision" className="btn btn-outline">Nuestro propósito</a>
@@ -804,7 +804,7 @@ function Sistemas(){
       </div>
 
      <div className="arch">
-  <div style={{fontSize:"2rem"}}><img src="./assets/icons/settings.gif" alt="" style={{height:"28px",verticalAlign:"middle",marginRight:"8px"}} /></div>
+      <div style={{fontSize:"2rem"}}><img src="./assets/icons/settings.gif" alt="" style={{height:"28px",verticalAlign:"middle",marginRight:"8px"}} /></div>
   <div>
     <h3> Una arquitectura pensada para escalar</h3>
     <p>Cada sistema AURIX está diseñado desde su origen para integrarse en una plataforma unificada. Nuestra hoja de ruta apunta a operar bajo un modelo centralizado (multi-tenant): cada empresa vería solo su información, pero todas compartirían la misma infraestructura. Esto nos permitirá reducir los costos de hosting y mantenimiento, entregar mejoras a todos los clientes al mismo tiempo, y abrir nuevos sectores —peluquerías, restaurantes, comercio— sin rehacer la tecnología. Menos costo para nosotros, mejor precio para el microempresario.</p>
